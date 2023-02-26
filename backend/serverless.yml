@@ -1,5 +1,5 @@
-# TODO: Change the name of the org 
-org: newthingade
+# TODO: Change the name of the org
+org: nierowheezy
 app: serverless-udapeople
 service: serverless-udapeople
 
@@ -8,32 +8,30 @@ plugins:
   - serverless-iam-roles-per-function
   - serverless-reqvalidator-plugin
   - serverless-aws-documentation
-  
 
 provider:
   name: aws
   runtime: nodejs12.x
- # lambdaHashingVersion: '20201221'
+  # lambdaHashingVersion: '20201221'
   stage: ${opt:stage, 'prod'}
-  region: ${opt:region, 'us-east-2'}
+  region: ${opt:region, 'us-east-1'}
 
   tracing:
     lambda: true
     apiGateway: true
 
-  # Use these variables in the functions and resouorces section below. For example, 
+  # Use these variables in the functions and resouorces section below. For example,
   # ${self:provider.environment.ATTACHMENT_S3_BUCKET}
   environment:
     PROJECT_NAME: udapeople-serveless
     TODOS_TABLE: udapeople-serverless-${self:provider.stage}
     S3_BUCKET_NAME: udapeop-serverless-${self:provider.stage}
 
-
 custom:
   documentation:
     api:
       info:
-        version: '1.0.0'
+        version: "1.0.0"
         title: serverless-api
         description: serverless-api
     models:
@@ -64,30 +62,25 @@ custom:
               type: string
             done:
               type: boolean
-  
-  
-  
-  
+
   #logs:
-    # Enable API Gateway logs
-   # restApi: true
+  # Enable API Gateway logs
+  # restApi: true
 
   #iam:
-   # role:
-    #  statements:
-     #   - Effect: Allow
-     #     Action:
-     #       - xray:PutTelemetryRecords
-     #       - xray:PutTraceSegments
-     #     Resource: "*"
-
+  # role:
+  #  statements:
+  #   - Effect: Allow
+  #     Action:
+  #       - xray:PutTelemetryRecords
+  #       - xray:PutTraceSegments
+  #     Resource: "*"
 
 functions:
-
   Auth:
     handler: src/lambda/auth/auth0Authorizer.handler
 
-  # TODO: Configure this function - 
+  # TODO: Configure this function -
   # Provide iamRoleStatements property for performing Actions on DynamoDB
   GetTodos:
     handler: src/lambda/http/getTodos.handler
@@ -106,10 +99,10 @@ functions:
       - Effect: Allow
         Action:
           - xray:PutTraceSegments
-        Resource: 
-          - '*'
+        Resource:
+          - "*"
 
-# Create todo
+  # Create todo
   CreateTodo:
     handler: src/lambda/http/createTodo.handler
     events:
@@ -133,11 +126,10 @@ functions:
       - Effect: Allow
         Action:
           - xray:PutTraceSegments
-        Resource: 
-          - '*'
+        Resource:
+          - "*"
 
-
-#### Update todo
+  #### Update todo
 
   UpdateTodo:
     handler: src/lambda/http/updateTodo.handler
@@ -162,10 +154,10 @@ functions:
       - Effect: Allow
         Action:
           - xray:PutTraceSegments
-        Resource: 
-          - '*'
+        Resource:
+          - "*"
 
-### Delete Todo
+  ### Delete Todo
 
   DeleteTodo:
     handler: src/lambda/http/deleteTodo.handler
@@ -184,8 +176,8 @@ functions:
       - Effect: Allow
         Action:
           - xray:PutTraceSegments
-        Resource: 
-          - '*'
+        Resource:
+          - "*"
 
   # TODO: Configure this function
   # Provide property for setting up CORS, Authorizer, iamRoleStatements
@@ -203,9 +195,8 @@ functions:
       - Effect: Allow
         Action:
           - s3:*
-          - xray:PutTraceSegments 
+          - xray:PutTraceSegments
         Resource: arn:aws:s3:::${self:provider.environment.S3_BUCKET_NAME}/*
-
 
 resources:
   Resources:
@@ -228,7 +219,7 @@ resources:
     onlyBody:
       Type: "AWS::ApiGateway::RequestValidator"
       Properties:
-        Name: 'only-body'
+        Name: "only-body"
         RestApiId:
           Ref: ApiGatewayRestApi
         ValidateRequestBody: true
@@ -240,9 +231,9 @@ resources:
         CorsConfiguration:
           CorsRules:
             - AllowedOrigins:
-                - '*'
+                - "*"
               AllowedHeaders:
-                - '*'
+                - "*"
               AllowedMethods:
                 - GET
                 - PUT
@@ -250,11 +241,11 @@ resources:
                 - DELETE
                 - HEAD
               MaxAge: 300
-   
+
     RequestBodyValidator:
       Type: AWS::ApiGateway::RequestValidator
       Properties:
-        Name: 'request-body-validator'
+        Name: "request-body-validator"
         RestApiId:
           Ref: ApiGatewayRestApi
         ValidateRequestBody: true
@@ -280,18 +271,18 @@ resources:
           gatewayresponse.header.Access-Control-Allow-Methods: "'GET,OPTIONS,POST,DELETE,PATCH,PUT'"
         ResponseType: DEFAULT_5XX
         RestApiId:
-          Ref: ApiGatewayRestApi 
+          Ref: ApiGatewayRestApi
 
     BucketPolicy:
       Type: AWS::S3::BucketPolicy
       Properties:
         PolicyDocument:
           Id: MyPolicy
-          Version: '2012-10-17'
+          Version: "2012-10-17"
           Statement:
             - Sid: PublicReadForGetBucketObjects
               Effect: Allow
-              Principal: '*'
-              Action: 's3:GetObject'
-              Resource: 'arn:aws:s3:::${self:provider.environment.S3_BUCKET_NAME}/*'
+              Principal: "*"
+              Action: "s3:GetObject"
+              Resource: "arn:aws:s3:::${self:provider.environment.S3_BUCKET_NAME}/*"
         Bucket: !Ref AttachmentsBucket

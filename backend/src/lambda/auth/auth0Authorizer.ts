@@ -1,14 +1,14 @@
 import { CustomAuthorizerEvent, CustomAuthorizerResult } from 'aws-lambda'
-import 'source-map-support/register'
-import { verify} from 'jsonwebtoken'
-import { createLogger } from '../../utils/logger'
 import Axios from 'axios'
+import { verify } from 'jsonwebtoken'
+import 'source-map-support/register'
 import { JwtPayload } from '../../auth/JwtPayload'
+import { createLogger } from '../../utils/logger'
 
 const logger = createLogger('auth');
 
 // Todo
-const jwksUrl = 'https://dev-fjp-3wf9.us.auth0.com/.well-known/jwks.json';
+const jwksUrl = 'https://dev-bkmeg4gq.us.auth0.com/.well-known/jwks.json';
 
 
 export const handler = async (
@@ -67,7 +67,7 @@ async function verifyToken(authHeader: string): Promise<JwtPayload> {
     const cert = `-----BEGIN CERTIFICATE-----\n${pemData}\n-----END CERTIFICATE-----`
 
     return verify(token, cert, { algorithms: ['RS256'] }) as JwtPayload
-  } catch(err){
+  } catch (err) {
     logger.error('Fail to authenticate', err)
   }
 }
