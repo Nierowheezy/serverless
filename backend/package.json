@@ -1,7 +1,7 @@
 {
   "name": "serverless-todo-app",
   "version": "1.0.0",
-  "description": "Serverless TODO image app",
+  "description": "Serverless Todo App",
   "dependencies": {
     "@types/axios": "^0.14.0",
     "@types/http-errors": "^1.8.2",
@@ -29,6 +29,6 @@
     "typescript": "^3.9.10",
     "webpack": "^4.46.0"
   },
-  "author": "Deepa Subramanian",
+  "author": "Olabode Olaniyi David",
   "license": "MIT"
 }
